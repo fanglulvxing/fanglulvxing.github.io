@@ -1,0 +1,157 @@
+{% extends 'base.html' %}
+
+{% block title %}
+
+{% endblock  %}
+
+{% block content %}
+<style type="text/css">
+    body {
+      background-image: url("{% load static %}{% static 'back7.PNG' %}");
+      background-repeat: no-repeat;
+      background-position: right top;
+      background-attachment: fixed;
+      background-size: cover;
+      margin: 0;
+    }
+    
+
+  
+      .background-image {
+        background-image: url('{% static "行李.PNG" %}');
+        background-size: cover;
+        padding: 20px;
+        position: absolute;
+        left: 120px;
+        width: 700px;
+      }
+
+      .select-arrow select {
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+        background: url("{% load static %}{% static '下.PNG' %}") no-repeat right center;
+        background-size: 30px;
+        padding-right: 80px; /* 根据箭头图片的宽度调整 */
+        margin-left: 60px;
+      }
+
+      
+    </style>
+<div class="mb-3" style="margin-top: 100px; display: flex; align-items: flex-start;">
+    <form method="POST" action="">
+        {% csrf_token %}
+        </br></br></br>
+        {% comment %} {{ form.as_p}}  {% endcomment %}、
+          <div class="select-arrow">
+            {{ form.check_bag }}
+          </div>
+          {% if carbon_offset_choice == 0 or carbon_offset_choice == 3 %}
+          <center>
+              <div class="btn-group"style="margin-top: 300px;margin-left: 300px;" >
+                  <a href="{% url 'arline_details' airline_id current_order %}" class="btn btn-secondary">返回修改</a>
+                  <button class="btn btn-primary" onclick="save_total()">下一步</button>
+              </div>
+          </center>
+          {% else %}
+          <center>
+              <div class="btn-group"style="margin-top: 300px;margin-left: 300px;" >
+                  <a href="{% url 'arline_details' airline_id current_order %}" class="btn btn-secondary">返回修改</a>
+                  <button class="btn btn-primary" onclick="save_check_bag()">下一步</button>
+              </div>
+          </center>        
+          {% endif %}
+    </form>
+    <div class="table-responsive" style="background-color: rgba(0, 0, 0, 0.1); position: absolute; top: 75px; right: 230px; width: 450px; height: 320px;">
+        <table class="table table-hover table-borderless" style="background-color: white;">
+            <tbody>
+                <tr>
+                    <td colspan="2" style="text-align: center;">
+                        <h7><strong>09-06&nbsp;&nbsp;&nbsp;&nbsp;周三</strong></h7>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2" style="text-align: center;">
+                        <h7><strong>{{ airline.starting_airport }}&nbsp;&nbsp;<img src="{%static 'arrow.PNG'%}" alt="" width="50" height="8">&nbsp;&nbsp;{{ airline.destination_airport }}</strong></h7>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2" style="text-align: center;">
+                        <h8 style="font-size: 14px; color: gray;">{{ airline.airlines }}&nbsp;{{ airline.flight }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ airline.aircraft_type }}&nbsp;&nbsp;经济舱</h8>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="text-align: center;">
+                        <h3>{{ airline.departure_time }}&nbsp;&nbsp;<img src="{%static 'arrow.PNG'%}" alt="" width="50" height="8">&nbsp;&nbsp;{{ airline.arrival_time }}</h3>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2" style="text-align: center;">
+                        <h8 style="font-size: 14px; color: gray;">准点率：{{ airline.punctuality_rate }}</h8>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2" style="text-align: right;">
+                        <h2 style=" color: orange;">{{ airline.price }}</h2>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>   
+    {% comment %} <div class="table-responsive" style=" rgba(0, 0, 0, 10);position: absolute; top: 75px; right: 230px;width: 500px; height: 400px;">
+        <table class="table table-hover" style="background-color: white;">
+            <h7>09-06 周三</h7></br>
+            <h7>{{ airline.starting_airport }}<img src="{%static 'arrow.PNG'%}" alt="" width="50" height="8">{{ airline.destination_airport }}</h7></br>
+            <h8>{{ airline.airlines }}&nbsp;{{ airline.flight }}&nbsp;{{ airline.aircraft_type }}&nbsp;经济舱</h8></br>
+            <h5>{{ airline.departure_time }}<img src="{%static 'arrow.PNG'%}" alt="" width="50" height="8">{{ airline.arrival_time }}</h5></br>
+            <h8>准点率：{{ airline.punctuality_rate }}</h8></br>
+            <h4>{{ airline.price }}</h4></br>
+
+        </table>
+    </div> 
+</div> {% endcomment %}
+    </form>
+
+<script>
+    function save_check_bag(){
+        var airline_price = localStorage.getItem("price");
+        localStorage.setItem('check_bag_price', $("#id_check_bag option:selected").val().split("+")[1].replace('CNY)',""));
+        window.location.href = "{% url 'carbon_offset' airline.id current_order %}";
+        var chengren = Number(airline_price.replace('CNY',"")) - 150; // 计算出 chengren 的值
+        localStorage.setItem('chengren', String(chengren) + 'CNY');
+        localStorage.setItem('check_bag_price', String(check_bag_price) + 'CNY');
+        
+    }
+    function save_total(){
+
+        
+        var carbon_choice = "{{ carbon_offset_choice }}";
+        var airline_price = localStorage.getItem("price");
+        var check_bag_price = Number($("#id_check_bag option:selected").val().split("+")[1].replace('CNY)',""));
+        localStorage.setItem('check_bag_price', check_bag_price);
+        var chengren = Number(airline_price.replace('CNY',"")) - 150; // 计算出 chengren 的值
+        localStorage.setItem('chengren', String(chengren) + 'CNY');
+        localStorage.setItem('check_bag_price', String(check_bag_price) + 'CNY');
+
+
+        if(carbon_choice == 3){
+            console.log("Default include {{carbon_offset_fee}}");
+            console.log(airline_price + "add {{carbon_offset_fee}} :");
+            var fee = Number(airline_price.replace('CNY',""))+Number('{{carbon_offset_fee}}')+check_bag_price;
+            console.log(fee);
+            localStorage.setItem('total_price', String(fee) + 'CNY');  
+            localStorage.setItem('paid', "true");          
+        }
+        else {
+            console.log('No offset');
+            var fee = Number(airline_price.replace('CNY',""))+check_bag_price;
+            localStorage.setItem('total_price', String(fee) + 'CNY'); 
+            localStorage.setItem('paid', "false");
+        }
+        window.location.href = "{% url 'submit_order' airline.id current_order %}";
+        
+    }
+</script>
+
+{% endblock  %}

@@ -1,0 +1,1077 @@
+{% extends 'base.html' %}
+
+{% block title %}
+
+{% endblock  %}
+
+{% block content %}
+<style>
+    .custom-btn {
+      font-size: 14px; /* 设置按钮字体大小 */
+      margin-bottom: 10px; /* 设置按钮之间的底部间距 */
+      width: 300px;
+    }
+    .containerOne {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+      }
+      .containerTwo {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+      }   
+      .option {
+        width: 200px;
+        height: 50px;
+        border: 1px solid #ccc;
+        border-radius: 10px;
+        cursor: move;
+        background-color: #bbdefb;
+        text-align: center;
+        line-height: 50px;
+      }
+    
+      .sortable {
+        border: 1px solid #90caf9;
+        border-radius: 10px;
+        padding: 10px;
+        margin-top: 10px;
+        min-width: 550px; 
+        min-height: 50px;
+      }
+    
+    
+       .sortable-option {
+        width: 520px;
+        height: 50px;
+        border: 1px solid #90caf9;
+        margin-bottom: 10px;
+        background-color: #90caf9;
+        text-align: center;
+        line-height: 50px;
+        cursor: move;
+        border-radius: 10px;
+      } 
+      li {
+        margin: 0;
+        padding: 0;
+      }
+      ul {
+        list-style-type: none;
+        padding: 0;
+        margin: 0;
+      }
+  </style>
+
+  <div id="confirmationModal" class="modal" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-body">
+          <p>您已完成了有关航班的选择。</p>
+          <p>以下问题涉及您对航空旅行的总体偏好和态度。</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" id="confirmButton">确定</button>
+        </div>
+      </div>
+    </div>
+  </div>
+<div>
+<nav class="navbar navbar-light" style="background-color: #e3f2fd;">
+  </nav>
+<nav class="navbar navbar-light" style="background-color: #e3f2fd;">
+    <span style="font-size: 30px;">&nbsp;&nbsp;&nbsp;问卷</span>
+  </nav>
+  <nav class="navbar navbar-light" style="background-color: #e3f2fd;">
+</nav>
+</div>
+<div class="mb-3">
+    <form method="POST" action="">
+        <div class="card" id="survey_Q4">
+            <div class="card-body">
+                <p>Q1. 政府可以实施不同的气候政策来减少航空碳排放，您在多大程度上支持以下政策？</p>
+                
+
+                <label for="survery_Q4_a" class="form-label">a. 飞行常客税</label>
+                <div class="visually-hidden">
+                    {{ form.survery_Q4_a }}
+                </div>
+                <div class="survery_Q4_ratios" id="survery_Q4_a">
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" name="inlineRadioOptions" id="inlineRadio1" value="1" onclick="toggle_check_Q4(this)">
+                        <label class="form-check-label" for="inlineRadio1">完全不同意</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" name="inlineRadioOptions" id="inlineRadio2" value="2" onclick="toggle_check_Q4(this)">
+                        <label class="form-check-label" for="inlineRadio2">非常不同意</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" name="inlineRadioOptions" id="inlineRadio3" value="3" onclick="toggle_check_Q4(this)">
+                        <label class="form-check-label" for="inlineRadio3">部分不同意</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" name="inlineRadioOptions" id="inlineRadio4" value="4" onclick="toggle_check_Q4(this)">
+                        <label class="form-check-label" for="inlineRadio4">不确定</label>
+                    </div>                     
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" name="inlineRadioOptions" id="inlineRadio5" value="5" onclick="toggle_check_Q4(this)">
+                        <label class="form-check-label" for="inlineRadio5">部分同意</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" name="inlineRadioOptions" id="inlineRadio6" value="6" onclick="toggle_check_Q4(this)">
+                        <label class="form-check-label" for="inlineRadio6">非常同意</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" name="inlineRadioOptions" id="inlineRadio7" value="7" onclick="toggle_check_Q4(this)">
+                        <label class="form-check-label" for="inlineRadio7">完全同意</label>
+                    </div>
+                </div>
+
+                <label for="survery_Q4_b" class="form-label">b. 增加航空税</label>
+                <div class="visually-hidden">
+                    {{ form.survery_Q4_b }}
+                </div>
+                <div class="survery_Q4_ratios" id="survery_Q4_b">
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" name="inlineRadioOptions" id="inlineRadio8" value="8" onclick="toggle_check_Q4(this)">
+                        <label class="form-check-label" for="inlineRadio1">完全不同意</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" name="inlineRadioOptions" id="inlineRadio9" value="9" onclick="toggle_check_Q4(this)">
+                        <label class="form-check-label" for="inlineRadio2">非常不同意</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" name="inlineRadioOptions" id="inlineRadio10" value="10" onclick="toggle_check_Q4(this)">
+                        <label class="form-check-label" for="inlineRadio3">部分不同意</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" name="inlineRadioOptions" id="inlineRadio11" value="11" onclick="toggle_check_Q4(this)">
+                        <label class="form-check-label" for="inlineRadio4">不确定</label>
+                    </div>                     
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" name="inlineRadioOptions" id="inlineRadio12" value="12" onclick="toggle_check_Q4(this)">
+                        <label class="form-check-label" for="inlineRadio5">部分同意</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" name="inlineRadioOptions" id="inlineRadio13" value="13" onclick="toggle_check_Q4(this)">
+                        <label class="form-check-label" for="inlineRadio6">非常同意</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" name="inlineRadioOptions" id="inlineRadio14" value="14" onclick="toggle_check_Q4(this)">
+                        <label class="form-check-label" for="inlineRadio7">完全同意</label>
+                    </div>
+                </div>  
+                
+
+                <label for="survery_Q4_c" class="form-label">c. 强制乘客支付碳补偿费用</label>
+                <div class="visually-hidden">
+                    {{ form.survery_Q4_c }}
+                </div>
+                <div class="survery_Q4_ratios" id="survery_Q4_c">
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" name="inlineRadioOptions" id="inlineRadio15" value="15" onclick="toggle_check_Q4(this)">
+                        <label class="form-check-label" for="inlineRadio1">完全不同意</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" name="inlineRadioOptions" id="inlineRadio16" value="16" onclick="toggle_check_Q4(this)">
+                        <label class="form-check-label" for="inlineRadio2">非常不同意</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" name="inlineRadioOptions" id="inlineRadio17" value="17" onclick="toggle_check_Q4(this)">
+                        <label class="form-check-label" for="inlineRadio3">部分不同意</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" name="inlineRadioOptions" id="inlineRadio18" value="18" onclick="toggle_check_Q4(this)">
+                        <label class="form-check-label" for="inlineRadio4">不确定</label>
+                    </div>                     
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" name="inlineRadioOptions" id="inlineRadio19" value="19" onclick="toggle_check_Q4(this)">
+                        <label class="form-check-label" for="inlineRadio5">部分同意</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" name="inlineRadioOptions" id="inlineRadio20" value="20" onclick="toggle_check_Q4(this)">
+                        <label class="form-check-label" for="inlineRadio6">非常同意</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" name="inlineRadioOptions" id="inlineRadio21" value="21" onclick="toggle_check_Q4(this)">
+                        <label class="form-check-label" for="inlineRadio7">完全同意</label>
+                    </div>
+                </div> 
+
+                <label for="survery_Q4_d" class="form-label">d. 限制每人每年的航班数量</label>
+                <div class="visually-hidden">
+                    {{ form.survery_Q4_d }}
+                </div>
+                <div class="survery_Q4_ratios" id="survery_Q4_d">
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" name="inlineRadioOptions" id="inlineRadio22" value="22" onclick="toggle_check_Q4(this)">
+                        <label class="form-check-label" for="inlineRadio1">完全不同意</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" name="inlineRadioOptions" id="inlineRadio23" value="23" onclick="toggle_check_Q4(this)">
+                        <label class="form-check-label" for="inlineRadio2">非常不同意</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" name="inlineRadioOptions" id="inlineRadio24" value="24" onclick="toggle_check_Q4(this)">
+                        <label class="form-check-label" for="inlineRadio3">部分不同意</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" name="inlineRadioOptions" id="inlineRadio25" value="25" onclick="toggle_check_Q4(this)">
+                        <label class="form-check-label" for="inlineRadio4">不确定</label>
+                    </div>                     
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" name="inlineRadioOptions" id="inlineRadio26" value="26" onclick="toggle_check_Q4(this)">
+                        <label class="form-check-label" for="inlineRadio5">部分同意</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" name="inlineRadioOptions" id="inlineRadio27" value="27" onclick="toggle_check_Q4(this)">
+                        <label class="form-check-label" for="inlineRadio6">非常同意</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" name="inlineRadioOptions" id="inlineRadio28" value="28" onclick="toggle_check_Q4(this)">
+                        <label class="form-check-label" for="inlineRadio7">完全同意</label>
+                    </div>
+                </div>   
+                
+                <label for="survery_Q4_e" class="form-label">e. 对国际旅行实施制裁</label>
+                <div class="visually-hidden">
+                    {{ form.survery_Q4_e }}
+                </div>
+                <div class="survery_Q4_ratios" id="survery_Q4_e">
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" name="inlineRadioOptions" id="inlineRadio29" value="29" onclick="toggle_check_Q4(this)">
+                        <label class="form-check-label" for="inlineRadio1">完全不同意</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" name="inlineRadioOptions" id="inlineRadio30" value="30" onclick="toggle_check_Q4(this)">
+                        <label class="form-check-label" for="inlineRadio2">非常不同意</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" name="inlineRadioOptions" id="inlineRadio31" value="31" onclick="toggle_check_Q4(this)">
+                        <label class="form-check-label" for="inlineRadio3">部分不同意</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" name="inlineRadioOptions" id="inlineRadio32" value="32" onclick="toggle_check_Q4(this)">
+                        <label class="form-check-label" for="inlineRadio4">不确定</label>
+                    </div>                     
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" name="inlineRadioOptions" id="inlineRadio33" value="33" onclick="toggle_check_Q4(this)">
+                        <label class="form-check-label" for="inlineRadio5">部分同意</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" name="inlineRadioOptions" id="inlineRadio34" value="34" onclick="toggle_check_Q4(this)">
+                        <label class="form-check-label" for="inlineRadio6">非常同意</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" name="inlineRadioOptions" id="inlineRadio35" value="35" onclick="toggle_check_Q4(this)">
+                        <label class="form-check-label" for="inlineRadio7">完全同意</label>
+                    </div>
+                </div>                 
+            </div>                
+        </div>
+        <nav class="navbar navbar-light" style="background-color: #e3f2fd;">
+        </nav>
+        <nav class="navbar navbar-light" style="background-color: #e3f2fd;">
+        </nav>
+
+        <div class="card">
+        <div class="card-body">
+            <label for="survery_Q2" class="form-label">Q2. 您听说过航空旅行中的碳补偿吗？</label>
+            {{ form.survery_Q2}}
+        </div>
+        </div>
+        <nav class="navbar navbar-light" style="background-color: #e3f2fd;">
+        </nav>
+        <nav class="navbar navbar-light" style="background-color: #e3f2fd;">
+        </nav>
+
+
+        <div class="card">
+            <div class="card-body">
+                <p>Q3. 碳抵消是一种通过帮助资助其他地区的碳减排项目来补偿一个地区产生的二氧化碳的方法。换句话说，如果一个航班产生一吨二氧化碳，该航班乘客可以选择资助一个有助于抵消这些碳排放的项目。
+                    碳抵消是一种自愿计划，人们通过付费来“抵消”或弥补其航班产生的排放。
+                    您认为，要求旅客在航空旅行中支付碳抵消费用是：</p>
+                <label for="survery_Q3_a" class="form-label">a. 可以接受的</label>
+                <br>
+                <div class="visually-hidden">
+                    {{ form.survery_Q3_a }}
+                </div>
+                <div class="survery_Q3_ratios" id="survery_Q3_a">
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" name="inlineRadioOptions" id="inlineRadio36" value="36" onclick="toggle_check_Q4(this)">
+                        <label class="form-check-label" for="inlineRadio1">完全不同意</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" name="inlineRadioOptions" id="inlineRadio37" value="37" onclick="toggle_check_Q4(this)">
+                        <label class="form-check-label" for="inlineRadio2">非常不同意</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" name="inlineRadioOptions" id="inlineRadio38" value="38" onclick="toggle_check_Q4(this)">
+                        <label class="form-check-label" for="inlineRadio3">部分不同意</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" name="inlineRadioOptions" id="inlineRadio39" value="39" onclick="toggle_check_Q4(this)">
+                        <label class="form-check-label" for="inlineRadio4">不确定</label>
+                    </div>                     
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" name="inlineRadioOptions" id="inlineRadio40" value="40" onclick="toggle_check_Q4(this)">
+                        <label class="form-check-label" for="inlineRadio5">部分同意</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" name="inlineRadioOptions" id="inlineRadio41" value="41" onclick="toggle_check_Q4(this)">
+                        <label class="form-check-label" for="inlineRadio6">非常同意</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" name="inlineRadioOptions" id="inlineRadio42" value="42" onclick="toggle_check_Q4(this)">
+                        <label class="form-check-label" for="inlineRadio7">完全同意</label>
+                    </div>
+                </div>
+    
+                <label for="survery_Q3_b" class="form-label">b. 重要的</label>
+                <br>
+                <div class="visually-hidden">
+                    {{ form.survery_Q3_b }}
+                </div>
+                <div class="survery_Q3_ratios" id="survery_Q3_b">
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" name="inlineRadioOptions" id="inlineRadio43" value="43" onclick="toggle_check_Q4(this)">
+                        <label class="form-check-label" for="inlineRadio1">完全不同意</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" name="inlineRadioOptions" id="inlineRadio44" value="44" onclick="toggle_check_Q4(this)">
+                        <label class="form-check-label" for="inlineRadio2">非常不同意</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" name="inlineRadioOptions" id="inlineRadio45" value="45" onclick="toggle_check_Q4(this)">
+                        <label class="form-check-label" for="inlineRadio3">部分不同意</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" name="inlineRadioOptions" id="inlineRadio46" value="46" onclick="toggle_check_Q4(this)">
+                        <label class="form-check-label" for="inlineRadio4">不确定</label>
+                    </div>                     
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" name="inlineRadioOptions" id="inlineRadio47" value="47" onclick="toggle_check_Q4(this)">
+                        <label class="form-check-label" for="inlineRadio5">部分同意</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" name="inlineRadioOptions" id="inlineRadio48" value="48" onclick="toggle_check_Q4(this)">
+                        <label class="form-check-label" for="inlineRadio6">非常同意</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" name="inlineRadioOptions" id="inlineRadio49" value="49" onclick="toggle_check_Q4(this)">
+                        <label class="form-check-label" for="inlineRadio7">完全同意</label>
+                    </div>
+                </div>
+
+                <label for="survery_Q3_c" class="form-label">c. 明智的</label>
+                <br>
+                <div class="visually-hidden">
+                    {{ form.survery_Q3_c }}
+                </div>
+                <div class="survery_Q3_ratios" id="survery_Q3_c">
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" name="inlineRadioOptions" id="inlineRadio50" value="50" onclick="toggle_check_Q4(this)">
+                        <label class="form-check-label" for="inlineRadio1">完全不同意</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" name="inlineRadioOptions" id="inlineRadio51" value="51" onclick="toggle_check_Q4(this)">
+                        <label class="form-check-label" for="inlineRadio2">非常不同意</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" name="inlineRadioOptions" id="inlineRadio52" value="52" onclick="toggle_check_Q4(this)">
+                        <label class="form-check-label" for="inlineRadio3">部分不同意</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" name="inlineRadioOptions" id="inlineRadio53" value="53" onclick="toggle_check_Q4(this)">
+                        <label class="form-check-label" for="inlineRadio4">不确定</label>
+                    </div>                     
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" name="inlineRadioOptions" id="inlineRadio54" value="54" onclick="toggle_check_Q4(this)">
+                        <label class="form-check-label" for="inlineRadio5">部分同意</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" name="inlineRadioOptions" id="inlineRadio55" value="55" onclick="toggle_check_Q4(this)">
+                        <label class="form-check-label" for="inlineRadio6">非常同意</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" name="inlineRadioOptions" id="inlineRadio56" value="56" onclick="toggle_check_Q4(this)">
+                        <label class="form-check-label" for="inlineRadio7">完全同意</label>
+                    </div>
+                </div>           
+    
+                <label for="survery_Q3_d" class="form-label">d. 必要的</label>
+                <br>
+                <div class="visually-hidden">
+                    {{ form.survery_Q3_d }}
+                </div>
+                <div class="survery_Q3_ratios" id="survery_Q3_d">
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" name="inlineRadioOptions" id="inlineRadio57" value="57" onclick="toggle_check_Q4(this)">
+                        <label class="form-check-label" for="inlineRadio1">完全不同意</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" name="inlineRadioOptions" id="inlineRadio58" value="58" onclick="toggle_check_Q4(this)">
+                        <label class="form-check-label" for="inlineRadio2">非常不同意</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" name="inlineRadioOptions" id="inlineRadio59" value="59" onclick="toggle_check_Q4(this)">
+                        <label class="form-check-label" for="inlineRadio3">部分不同意</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" name="inlineRadioOptions" id="inlineRadio60" value="60" onclick="toggle_check_Q4(this)">
+                        <label class="form-check-label" for="inlineRadio4">不确定</label>
+                    </div>                     
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" name="inlineRadioOptions" id="inlineRadio61" value="61" onclick="toggle_check_Q4(this)">
+                        <label class="form-check-label" for="inlineRadio5">部分同意</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" name="inlineRadioOptions" id="inlineRadio62" value="62" onclick="toggle_check_Q4(this)">
+                        <label class="form-check-label" for="inlineRadio6">非常同意</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" name="inlineRadioOptions" id="inlineRadio63" value="63" onclick="toggle_check_Q4(this)">
+                        <label class="form-check-label" for="inlineRadio7">完全同意</label>
+                    </div>
+                </div>     
+            </div>
+            </div>
+            <nav class="navbar navbar-light" style="background-color: #e3f2fd;">
+            </nav>
+            <nav class="navbar navbar-light" style="background-color: #e3f2fd;">
+            </nav>
+
+
+            <div class="card" id="survey_Q5">
+                <div class="card-body">
+                    <p>Q4. 如果强制乘客为碳抵消付款，您希望将资金投资于哪种类型的项目?请从上到下对1(您最喜欢的)到7(您最不喜欢的)碳抵消选项进行排名。</p>
+                    <ul class="list-group">
+                        <li class="btn btn-outline-primary custom-btn" draggable="true">植树造林并对抗森林砍伐</li>
+                        <li class="btn btn-outline-primary custom-btn" draggable="true">可再生能源投资</li>
+                        <li class="btn btn-outline-primary custom-btn" draggable="true">补贴电动汽车</li>
+                        <li class="btn btn-outline-primary custom-btn" draggable="true">保护自然和野生动物</li>
+                        <li class="btn btn-outline-primary custom-btn" draggable="true">清洁空气和水/减少污染</li>
+                        <li class="btn btn-outline-primary custom-btn" draggable="true">可持续的业务和供应链</li>
+                        <li class="btn btn-outline-primary custom-btn" draggable="true">教育和社区发展</li>
+                      </ul>       
+    
+                </div>
+            </div>
+            <nav class="navbar navbar-light" style="background-color: #e3f2fd;">
+            </nav>
+            <nav class="navbar navbar-light" style="background-color: #e3f2fd;">
+            </nav>
+
+            <div class="card" id="survey_Q7">
+                <div class="card-body">
+                  <p>Q5. 如果您乘坐的每个航班都强制乘客为碳抵消付款，您认为应该由谁来管理碳抵消的资金（包括决定资助哪些项目以及在哪里资助）？
+                    请您先根据自己的喜好将下列四个选项拖拽入第一到第四喜欢的方框内，然后将四个大选项内的小选项上下拖拽，按照从最喜欢到最不喜欢的顺序，从上到下排名。</p>
+                    <div class="containerOne">
+                        <div class="option" draggable="true" ondragstart="drag(event)">政府</div>
+                        <div class="option" draggable="true" ondragstart="drag(event)">航空公司</div>
+                        <div class="option" draggable="true" ondragstart="drag(event)">国际组织</div>
+                        <div class="option" draggable="true" ondragstart="drag(event)">非政府组织</div>
+                      </div>
+                      
+                      <div class="containerTwo">
+                        <div class="sortable" ondrop="drop(event)" ondragover="allowDrop(event)" data-accept="none">您第一喜欢的</div>
+                        <div class="sortable" ondrop="drop(event)" ondragover="allowDrop(event)" data-accept="none">您第二喜欢的</div>
+                      </div>
+                      
+                      <div class="containerTwo">
+                        <div class="sortable" ondrop="drop(event)" ondragover="allowDrop(event)" data-accept="none">您第三喜欢的</div>
+                        <div class="sortable" ondrop="drop(event)" ondragover="allowDrop(event)" data-accept="none">您第四喜欢的</div>
+                      </div>
+                      <div class="visually-hidden">
+                        <ul id="sortable-listOne" class="list-group"><li class="sortable-option" draggable="true" >机场所在地方政府</li><li class="sortable-option" draggable="true">各国政府</li></ul>
+                        <ul id="sortable-listTwo" class="list-group"><li class="sortable-option" draggable="true" >投资当地项目</li><li class="sortable-option" draggable="true">投资国际项目</li></ul>
+                        <ul id="sortable-listFour" class="list-group"><li class="sortable-option" draggable="true" >地方非政府组织</li><li class="sortable-option" draggable="true">国际非政府组织</li></ul>
+                        <ul id="sortable-listThree" class="list-group"><li class="sortable-option" draggable="true" >国际民用航空组织（ICAO，联合国负责的国际空中航行的专门机构）</li><li class="sortable-option" draggable="true">国际航空运输协会(IATA，由世界各国航空公司所组成的大型国际组织)</li><li class="sortable-option" draggable="true" >联合国</li><li class="sortable-option" draggable="true" >世界卫生组织</li><li class="sortable-option" draggable="true" >国际非政府组织</li></ul>
+                    </div>
+
+                </div>
+
+              </div>
+
+<script>
+    function drag(event) {
+      event.dataTransfer.setData("text", event.target.textContent);
+    }
+  
+    function allowDrop(event) {
+      event.preventDefault();
+    }
+  
+    function drop(event) {
+      event.preventDefault();
+      var optionText = event.dataTransfer.getData("text");
+      var sortable = event.target;
+  
+      // 检查当前框内是否已经有相同类型的选项
+      var existingOption = sortable.querySelector('.sortable-option');
+      if (existingOption) {
+        // 如果已存在相同类型的选项，则不做任何操作
+        return;
+      }
+  
+      // 根据选择的选项动态生成需要排序的框
+      if (optionText === '政府') {
+        var sortableList = document.getElementById("sortable-listOne");
+        sortableList.classList.remove("visually-hidden"); // 显示sortable-list
+        sortable.appendChild(sortableList); // 将sortable-list插入到sortable容器中
+      } else if (optionText === '航空公司') {
+        var sortableList = document.getElementById("sortable-listTwo");
+        sortableList.classList.remove("visually-hidden"); // 显示sortable-list
+        sortable.appendChild(sortableList); // 将sortable-list插入到sortable容器中
+
+      } else if (optionText === '国际组织') {
+        var sortableList = document.getElementById("sortable-listThree");
+        sortableList.classList.remove("visually-hidden"); // 显示sortable-list
+        sortable.appendChild(sortableList); // 将sortable-list插入到sortable容器中
+
+      } else if (optionText === '非政府组织') {
+        var sortableList = document.getElementById("sortable-listFour");
+        sortableList.classList.remove("visually-hidden"); // 显示sortable-list
+        sortable.appendChild(sortableList); // 将sortable-list插入到sortable容器中
+
+      }
+  
+      // 移除初始位置上的政府，航空公司，国际组织，非政府组织选项
+      var options = document.querySelectorAll('.option');
+      options.forEach(function(option) {
+        if (option.textContent === optionText) {
+          option.remove();
+        }
+      });
+    }
+  
+    function dragEnd(event) {
+      // 在拖动结束时更新排序后的顺序
+      var sortable = event.target;
+      var sortedOptions = Array.from(sortable.children).map(function(option) {
+        return option.outerHTML;
+      });
+      sortable.innerHTML = sortedOptions.join('');
+    }
+
+  </script>
+  
+
+              
+
+            <nav class="navbar navbar-light" style="background-color: #e3f2fd;">
+            </nav>
+            <nav class="navbar navbar-light" style="background-color: #e3f2fd;">
+            </nav>
+            {% if order.carbon_choice == '3' %}
+            <div class="card">
+            <div class="card-body">
+                <label for="survery_Q6" class="form-label">在机票最终价格确认页面除了常见税费（例如燃油、机场费用）外，最终价格还包括强制性碳抵消费用。 您是否注意到这笔费用已包含在您的最终机票费用中？</label>
+                {{ form.survery_Q6}}
+            </div>
+            </div>
+            <nav class="navbar navbar-light" style="background-color: #e3f2fd;">
+            </nav>
+            <nav class="navbar navbar-light" style="background-color: #e3f2fd;">
+            </nav>
+            {% endif%}
+
+
+
+        <div class="card">
+            <div class="card-body">
+              <p>Q6. 您被要求提供一些有关购买航班的信息。您对用于做出选择的网络系统有何看法？</p>
+              <label for="id_survery_Q1_a" class="form-label">a. 网络系统是可信的</label>
+              <br>
+              <div class="visually-hidden">
+                {{ form.survery_Q1_a }}
+            </div>
+            <div class="survery_Q1_ratios" id="survery_Q1_a">
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" name="inlineRadioOptions" id="inlineRadio64" value="64" onclick="toggle_check_Q4(this)">
+                    <label class="form-check-label" for="inlineRadio1">完全不同意</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" name="inlineRadioOptions" id="inlineRadio65" value="65" onclick="toggle_check_Q4(this)">
+                    <label class="form-check-label" for="inlineRadio2">非常不同意</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" name="inlineRadioOptions" id="inlineRadio66" value="66" onclick="toggle_check_Q4(this)">
+                    <label class="form-check-label" for="inlineRadio3">部分不同意</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" name="inlineRadioOptions" id="inlineRadio67" value="67" onclick="toggle_check_Q4(this)">
+                    <label class="form-check-label" for="inlineRadio4">不确定</label>
+                </div>                     
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" name="inlineRadioOptions" id="inlineRadio68" value="68" onclick="toggle_check_Q4(this)">
+                    <label class="form-check-label" for="inlineRadio5">部分同意</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" name="inlineRadioOptions" id="inlineRadio69" value="69" onclick="toggle_check_Q4(this)">
+                    <label class="form-check-label" for="inlineRadio6">非常同意</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" name="inlineRadioOptions" id="inlineRadio70" value="70" onclick="toggle_check_Q4(this)">
+                    <label class="form-check-label" for="inlineRadio7">完全同意</label>
+                </div>
+            </div>
+
+              <label for="id_survery_Q1_b" class="form-label">b. 网络系统是易于理解的</label>
+              <br>
+              <div class="visually-hidden">
+                {{ form.survery_Q1_b }}
+            </div>
+            <div class="survery_Q1_ratios" id="survery_Q1_b">
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" name="inlineRadioOptions" id="inlineRadio71" value="71" onclick="toggle_check_Q4(this)">
+                    <label class="form-check-label" for="inlineRadio1">完全不同意</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" name="inlineRadioOptions" id="inlineRadio72" value="72" onclick="toggle_check_Q4(this)">
+                    <label class="form-check-label" for="inlineRadio2">非常不同意</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" name="inlineRadioOptions" id="inlineRadio73" value="73" onclick="toggle_check_Q4(this)">
+                    <label class="form-check-label" for="inlineRadio3">部分不同意</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" name="inlineRadioOptions" id="inlineRadio74" value="74" onclick="toggle_check_Q4(this)">
+                    <label class="form-check-label" for="inlineRadio4">不确定</label>
+                </div>                     
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" name="inlineRadioOptions" id="inlineRadio75" value="75" onclick="toggle_check_Q4(this)">
+                    <label class="form-check-label" for="inlineRadio5">部分同意</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" name="inlineRadioOptions" id="inlineRadio76" value="76" onclick="toggle_check_Q4(this)">
+                    <label class="form-check-label" for="inlineRadio6">非常同意</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" name="inlineRadioOptions" id="inlineRadio77" value="77" onclick="toggle_check_Q4(this)">
+                    <label class="form-check-label" for="inlineRadio7">完全同意</label>
+                </div>
+            </div>
+
+              <label for="id_survery_Q1_c" class="form-label">c. 网络系统看起来与我用来预订机票的其他网站/应用程序相似</label>
+              <br>
+              <div class="visually-hidden">
+                {{ form.survery_Q1_c }}
+            </div>
+            <div class="survery_Q1_ratios" id="survery_Q1_c">
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" name="inlineRadioOptions" id="inlineRadio78" value="78" onclick="toggle_check_Q4(this)">
+                    <label class="form-check-label" for="inlineRadio1">完全不同意</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" name="inlineRadioOptions" id="inlineRadio79" value="79" onclick="toggle_check_Q4(this)">
+                    <label class="form-check-label" for="inlineRadio2">非常不同意</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" name="inlineRadioOptions" id="inlineRadio80" value="80" onclick="toggle_check_Q4(this)">
+                    <label class="form-check-label" for="inlineRadio3">部分不同意</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" name="inlineRadioOptions" id="inlineRadio81" value="81" onclick="toggle_check_Q4(this)">
+                    <label class="form-check-label" for="inlineRadio4">不确定</label>
+                </div>                     
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" name="inlineRadioOptions" id="inlineRadio82" value="82" onclick="toggle_check_Q4(this)">
+                    <label class="form-check-label" for="inlineRadio5">部分同意</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" name="inlineRadioOptions" id="inlineRadio83" value="83" onclick="toggle_check_Q4(this)">
+                    <label class="form-check-label" for="inlineRadio6">非常同意</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" name="inlineRadioOptions" id="inlineRadio84" value="84" onclick="toggle_check_Q4(this)">
+                    <label class="form-check-label" for="inlineRadio7">完全同意</label>
+                </div>
+            </div>
+              <label for="id_survery_Q1_d" class="form-label">d. 我对网络系统的布局感到满意</label>
+              <br>
+              <div class="visually-hidden">
+                {{ form.survery_Q1_d }}
+            </div>
+            <div class="survery_Q1_ratios" id="survery_Q1_d">
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" name="inlineRadioOptions" id="inlineRadio85" value="85" onclick="toggle_check_Q4(this)">
+                    <label class="form-check-label" for="inlineRadio1">完全不同意</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" name="inlineRadioOptions" id="inlineRadio86" value="86" onclick="toggle_check_Q4(this)">
+                    <label class="form-check-label" for="inlineRadio2">非常不同意</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" name="inlineRadioOptions" id="inlineRadio87" value="87" onclick="toggle_check_Q4(this)">
+                    <label class="form-check-label" for="inlineRadio3">部分不同意</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" name="inlineRadioOptions" id="inlineRadio88" value="88" onclick="toggle_check_Q4(this)">
+                    <label class="form-check-label" for="inlineRadio4">不确定</label>
+                </div>                     
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" name="inlineRadioOptions" id="inlineRadio89" value="89" onclick="toggle_check_Q4(this)">
+                    <label class="form-check-label" for="inlineRadio5">部分同意</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" name="inlineRadioOptions" id="inlineRadio90" value="90" onclick="toggle_check_Q4(this)">
+                    <label class="form-check-label" for="inlineRadio6">非常同意</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" name="inlineRadioOptions" id="inlineRadio91" value="91" onclick="toggle_check_Q4(this)">
+                    <label class="form-check-label" for="inlineRadio7">完全同意</label>
+                </div>
+            </div>
+              <label for="id_survery_Q1_e" class="form-label">e. 我对我的航班选择感到满意</label>
+              <br>
+              <div class="visually-hidden">
+                {{ form.survery_Q1_e }}
+            </div>
+            <div class="survery_Q1_ratios" id="survery_Q1_e">
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" name="inlineRadioOptions" id="inlineRadio92" value="92" onclick="toggle_check_Q4(this)">
+                    <label class="form-check-label" for="inlineRadio1">完全不同意</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" name="inlineRadioOptions" id="inlineRadio93" value="93" onclick="toggle_check_Q4(this)">
+                    <label class="form-check-label" for="inlineRadio2">非常不同意</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" name="inlineRadioOptions" id="inlineRadio94" value="94" onclick="toggle_check_Q4(this)">
+                    <label class="form-check-label" for="inlineRadio3">部分不同意</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" name="inlineRadioOptions" id="inlineRadio95" value="95" onclick="toggle_check_Q4(this)">
+                    <label class="form-check-label" for="inlineRadio4">不确定</label>
+                </div>                     
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" name="inlineRadioOptions" id="inlineRadio96" value="96" onclick="toggle_check_Q4(this)">
+                    <label class="form-check-label" for="inlineRadio5">部分同意</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" name="inlineRadioOptions" id="inlineRadio97" value="97" onclick="toggle_check_Q4(this)">
+                    <label class="form-check-label" for="inlineRadio6">非常同意</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" name="inlineRadioOptions" id="inlineRadio98" value="98" onclick="toggle_check_Q4(this)">
+                    <label class="form-check-label" for="inlineRadio7">完全同意</label>
+                </div>
+            </div>                                        
+            </div>
+        </div>
+        <nav class="navbar navbar-light" style="background-color: #e3f2fd;">
+        </nav>
+        <nav class="navbar navbar-light" style="background-color: #e3f2fd;">
+        </nav>
+
+        {% csrf_token %}
+        <label for="id_subject_age" class="form-label">Q7. 您的年龄:</label>
+        {{ form.subject_age}}
+        <label for="id_subject_gender" class="form-label">Q8. 您的生理性别:</label>
+        {{ form.subject_gender}}
+        <label for="id_subject_education" class="form-label">Q9. 您的学历</label>
+        {{ form.subject_education}}
+        <label for="id_subject_marital" class="form-label">Q10. 个人收入（税后每月）</label>
+        {{ form.subject_income}}
+        <label for="id_subject_marital" class="form-label">Q10. 您的婚姻状况</label>
+        {{ form.subject_marital}}
+    </br>
+        <center>
+                <button class="btn btn-primary" type="submit">提交问卷</button>
+        </center>
+
+    </form>
+
+</div>
+
+<script>
+
+    window.addEventListener('DOMContentLoaded', function() {
+        var modal = new bootstrap.Modal(document.getElementById('confirmationModal'));
+    
+        modal.show(); // 显示模态框
+    
+        document.getElementById('confirmButton').addEventListener('click', function() {
+          modal.hide(); // 隐藏模态框
+        });
+      });
+    
+    
+      var ul = document.getElementsByTagName("ul")[0];
+        // 把ul设置为有效的放置目标
+        ul.ondragover = function (event) {
+          event.preventDefault();
+        };
+        var draging; // 存放被拖动元素
+        ul.ondragstart = function (event) {
+          draging = event.target;
+        }
+        ul.ondrop = function (event) {
+          var target = event.target; // 放置目标
+          if (target.nodeName === "LI" && target !== draging) {       
+            if (getIndex(draging) < getIndex(target)) {
+              target.parentNode.insertBefore(draging, target.nextSibling);
+            } else {
+              target.parentNode.insertBefore(draging, target);
+            }
+          }
+        };
+        // 获取当前元素index
+        function getIndex(el) {
+          var index = 0;
+          if (!el || !el.parentNode) {
+            return -1;
+          }
+          while (el = el.previousElementSibling) {
+            index++;
+          }
+          return index;
+        }
+
+  
+  
+        var sortableList = document.getElementById("sortable-listOne");//第一次！！！
+  sortableList.ondragover = function(event) {
+    event.preventDefault();
+  };
+
+  var draging; // 存放被拖动元素
+
+  sortableList.ondragstart = function(event) {
+    draging = event.target;
+  };
+
+  sortableList.ondrop = function(event) {
+    var target = event.target; // 放置目标
+    if (target.nodeName === "LI" && target !== draging) {
+      if (getIndex(draging) < getIndex(target)) {
+        target.parentNode.insertBefore(draging, target.nextSibling);
+      } else {
+        target.parentNode.insertBefore(draging, target);
+      }
+    }
+  };
+
+  // 获取当前元素index
+  function getIndex(el) {
+    var index = 0;
+    if (!el || !el.parentNode) {
+      return -1;
+    }
+    while (el = el.previousElementSibling) {
+      index++;
+    }
+    return index;
+  }
+
+  var sortableListTwo = document.getElementById("sortable-listTwo");//第二次！！！！
+  sortableListTwo.ondragover = function(event) {
+    event.preventDefault();
+  };
+
+  var draging; // 存放被拖动元素
+
+  sortableListTwo.ondragstart = function(event) {
+    draging = event.target;
+  };
+
+  sortableListTwo.ondrop = function(event) {
+    var target = event.target; // 放置目标
+    if (target.nodeName === "LI" && target !== draging) {
+      if (getIndex(draging) < getIndex(target)) {
+        target.parentNode.insertBefore(draging, target.nextSibling);
+      } else {
+        target.parentNode.insertBefore(draging, target);
+      }
+    }
+  };
+
+  // 获取当前元素index
+  function getIndex(el) {
+    var index = 0;
+    if (!el || !el.parentNode) {
+      return -1;
+    }
+    while (el = el.previousElementSibling) {
+      index++;
+    }
+    return index;
+  }
+
+  var sortableListThree = document.getElementById("sortable-listThree");//第三次！！！！
+  sortableListThree.ondragover = function(event) {
+    event.preventDefault();
+  };
+
+  var draging; // 存放被拖动元素
+
+  sortableListThree.ondragstart = function(event) {
+    draging = event.target;
+  };
+
+  sortableListThree.ondrop = function(event) {
+    var target = event.target; // 放置目标
+    if (target.nodeName === "LI" && target !== draging) {
+      if (getIndex(draging) < getIndex(target)) {
+        target.parentNode.insertBefore(draging, target.nextSibling);
+      } else {
+        target.parentNode.insertBefore(draging, target);
+      }
+    }
+  };
+
+  // 获取当前元素index
+  function getIndex(el) {
+    var index = 0;
+    if (!el || !el.parentNode) {
+      return -1;
+    }
+    while (el = el.previousElementSibling) {
+      index++;
+    }
+    return index;
+  }
+
+  var sortableListFour = document.getElementById("sortable-listFour");//第四次！！！！
+  sortableListFour.ondragover = function(event) {
+    event.preventDefault();
+  };
+
+  var draging; // 存放被拖动元素
+
+  sortableListFour.ondragstart = function(event) {
+    draging = event.target;
+  };
+
+  sortableListFour.ondrop = function(event) {
+    var target = event.target; // 放置目标
+    if (target.nodeName === "LI" && target !== draging) {
+      if (getIndex(draging) < getIndex(target)) {
+        target.parentNode.insertBefore(draging, target.nextSibling);
+      } else {
+        target.parentNode.insertBefore(draging, target);
+      }
+    }
+  };
+
+  // 获取当前元素index
+  function getIndex(el) {
+    var index = 0;
+    if (!el || !el.parentNode) {
+      return -1;
+    }
+    while (el = el.previousElementSibling) {
+      index++;
+    }
+    return index;
+  }
+</script>
+
+
+  
+
+<script>
+    function toggle_check_Q4(obj){
+        // console.log($('#'+obj.id).parent().parent().find("input[type='checkbox']:checked"))
+        // console.log($('#'+obj.id).prop('checked'))
+
+        if($('#'+obj.id).prop('checked') == true){
+            var checked_elems = $('#'+obj.id).parent().parent().find("input[type='checkbox']:checked");
+            var prev_checked_elem_id = NaN;
+            if(checked_elems.length == 2){
+                if(checked_elems[0].getAttribute('id') == obj.id){
+                    prev_checked_elem_id = checked_elems[1].getAttribute('id')
+                }
+                else{
+                    prev_checked_elem_id = checked_elems[0].getAttribute('id')
+                }
+            }
+            // console.log(prev_checked_elem_id)
+            $('#'+obj.id).parent().parent().find('input').removeAttr('checked');
+            $('#'+obj.id).prop('checked','true')
+            
+            var value = '[value="' + $('#'+obj.id).attr('value') + '"]';
+            // console.log(value)
+            $('#survey_Q4').find(value).prop('disabled','true');
+            $('#'+obj.id).removeAttr('disabled')
+
+            if(prev_checked_elem_id){
+                var prev_checked_value = $('#'+prev_checked_elem_id).attr('value')        
+                if($('#survey_Q4').find("input[value='" + prev_checked_value + "']:checked").length == 0){
+                    $('#survey_Q4').find("[value='" + prev_checked_value + "']").removeAttr('disabled')
+                }
+                
+            }
+
+        }
+        else{
+            $('#'+obj.id).removeAttr('checked');
+            $('#survey_Q4').find("[value='" + $('#'+obj.id).attr('value') + "']").removeAttr('disabled')
+            
+        }
+        var saved_value = $('#'+obj.id).parent().parent().find("input[type='checkbox']:checked").val()
+        var save_dest = $('#'+obj.id).parent().parent().attr('id').split('_')[2];
+        if(saved_value){
+            $('#id_survery_Q4_'+ save_dest).attr('value',saved_value)
+        }
+        else{
+            $('#id_survery_Q4_'+ save_dest).attr('value','')
+        }   
+
+        
+    }
+
+    function toggle_check_Q5(obj){
+        // console.log($('#'+obj.id).parent().parent().find("input[type='checkbox']:checked"))
+        // console.log($('#'+obj.id).prop('checked'))
+
+        if($('#'+obj.id).prop('checked') == true){
+            var checked_elems = $('#'+obj.id).parent().parent().find("input[type='checkbox']:checked");
+            var prev_checked_elem_id = NaN;
+            if(checked_elems.length == 2){
+                if(checked_elems[0].getAttribute('id') == obj.id){
+                    prev_checked_elem_id = checked_elems[1].getAttribute('id')
+                }
+                else{
+                    prev_checked_elem_id = checked_elems[0].getAttribute('id')
+                }
+            }
+            // console.log(prev_checked_elem_id)
+            $('#'+obj.id).parent().parent().find('input').removeAttr('checked');
+            $('#'+obj.id).prop('checked','true')
+            
+            var value = '[value="' + $('#'+obj.id).attr('value') + '"]';
+            // console.log(value)
+            $('#survey_Q5').find(value).prop('disabled','true');
+            $('#'+obj.id).removeAttr('disabled')
+
+            if(prev_checked_elem_id){
+                var prev_checked_value = $('#'+prev_checked_elem_id).attr('value')        
+                if($('#survey_Q5').find("input[value='" + prev_checked_value + "']:checked").length == 0){
+                    $('#survey_Q5').find("[value='" + prev_checked_value + "']").removeAttr('disabled')
+                }
+                
+            }
+
+        }
+        else{
+            $('#'+obj.id).removeAttr('checked');
+            $('#survey_Q5').find("[value='" + $('#'+obj.id).attr('value') + "']").removeAttr('disabled')
+            
+        }
+        var saved_value = $('#'+obj.id).parent().parent().find("input[type='checkbox']:checked").val()
+        var save_dest = $('#'+obj.id).parent().parent().attr('id').split('_')[2];
+        if(saved_value){
+            $('#id_survery_Q5_'+ save_dest).attr('value',saved_value)
+        }
+        else{
+            $('#id_survery_Q5_'+ save_dest).attr('value','')
+        }   
+
+        
+    }
+</script>
+
+{% endblock  %}

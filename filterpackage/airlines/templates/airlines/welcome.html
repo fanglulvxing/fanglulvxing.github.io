@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style type="text/css">
+body {
+  background-image: url("{% load static %}{% static 'back.png' %}");
+  background-repeat: no-repeat;
+  background-position: right top;
+  background-attachment: fixed;
+  background-size: cover;
+  margin: 0;
+}
+body {
+  color: black;
+}
+
+p {
+  position: relative;
+  left: 200px;
+  font-family:楷体;
+  font-size: 25px;
+  font-weight: bold; 
+}
+
+h1 {
+  text-align: center;
+  font-family: 楷体;
+  font-size: 80px;
+}
+
+    input[type="radio"] {
+      width: 20px;
+      height: 20px;
+    }
+    
+    button {
+      width: 80px;
+      height: 70px;
+    }
+  </style>
+</head>
+<body>
+<h1>欢迎！</h1>
+<p>这是一项关于旅行偏好的研究。</p>
+
+<P>我们会问您几个关于您的旅行选择偏好的问题。您只需要像为自己计划一次旅行一样回答问题。</p>
+<P>我们想知道在现实生活中，当您面临我们向您展示的下列选择时您会做出怎样的决定。</p>
+<P>您的回答是保密的，本研究不会收集任何个人信息。您提供给我们的信息将仅用于本研究。您可以随时退出本研究。</p>
+<P>参与本研究没有相关风险。</p>
+<P>本研究已经通过昆山杜克大学 (DKU) 机构审查委员会 (IRB) 的审查和批准。</p>
+<p>如果您对本研究有任何疑问，请联系Claudia Nisa教授（claudia.nisa@dukekunshan.edu.cn）。</p>
+
+<P>请说明您是否同意参加本研究。</p>
+<div>
+<form>
+    <label style="display: flex; align-items: center; margin-left: 200px;">  
+    <input type="radio" name="page" value="new_order" ><h3 style="margin-left: 10px;">是</h3>
+    </label>  
+    <label style="display: flex; align-items: center; margin-left: 200px;">
+    <input type="radio" name="page" value="thank" ><h3 style="margin-left: 10px;">否</h3>
+    </label> 
+</form>
+<button onclick="goToPage()" style="margin-left: 200px; background-color: lightblue; border-radius: 10px; border: none;">
+  <h3>跳转</h3>
+</button>
+</div>
+
+
+</br></br></br>
+
+<script>
+  function goToPage() {
+    var pages = document.getElementsByName("page");
+    var selectedPage = "";
+    
+    for (var i = 0; i < pages.length; i++) {
+      if (pages[i].checked) {
+        selectedPage = pages[i].value;
+        break;
+      }
+    }
+    
+    if (selectedPage == "new_order") {
+      window.location.href = "/new_order/"; 
+    } else if (selectedPage == "thank") {
+      window.location.href = "/thank/";  // 跳转到thank页面
+    }
+  }
+</script>
+</body>
+</html>
