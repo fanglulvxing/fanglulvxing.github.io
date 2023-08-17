@@ -280,7 +280,7 @@ def AirlineDetailView(request, aid, oid):
 
 class AddOrderView(CreateView):
     model = Order
-    template_name = 'airlines/new_order.html'
+    template_name = 'airlines/index.html'
     form_class = AddOrderForm
     
 
