@@ -16,40 +16,27 @@ from dotenv import load_dotenv
 import dj_database_url
 # settings.py
 
-import logging
-
-# 配置日志记录器
-logger = logging.getLogger(__name__)
-logger.setLevel(logging.INFO)  # 设置日志级别为 INFO
-
-# 配置日志处理器
-handler = logging.StreamHandler()  # 将日志消息输出到终端
-formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')  # 定义日志消息的格式
-handler.setFormatter(formatter)
-
-# 将处理器添加到日志记录器
-logger.addHandler(handler)
 
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 # BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-#load_dotenv(BASE_DIR / '.env')
+load_dotenv(BASE_DIR / '.env')
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'ltfyqd9owrc!2@+2$d&805goj919uj$gtaklyr1rur_5xe@=i@'
-#SECRET_KEY = os.getenv('SECRET_KEY')
+# SECRET_KEY = 'ltfyqd9owrc!2@+2$d&805goj919uj$gtaklyr1rur_5xe@=i@'
+SECRET_KEY = os.getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-#DEBUG = os.getenv('DEBUG', '0').lower() in ['true', 't', '1']
+# DEBUG = True
+DEBUG = os.getenv('DEBUG', '0').lower() in ['true', 't', '1']
 
-ALLOWED_HOSTS = []
-#ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS').split(' ')
+# ALLOWED_HOSTS = []
+ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS').split(' ')
 
 
 
@@ -102,15 +89,15 @@ WSGI_APPLICATION = 'filterpackage.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
-}
 # DATABASES = {
-#     'default': dj_database_url.parse(os.environ.get('DATABASE_URL'), conn_max_age=600),
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+#     }
 # }
+DATABASES = {
+    'default': dj_database_url.parse(os.environ.get('DATABASE_URL'), conn_max_age=600),
+}
 
 
 # Password validation
